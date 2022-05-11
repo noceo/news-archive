@@ -10,7 +10,6 @@ jobs:
 
     steps:
 			  - uses: actions/checkout@v2
-
 			  - name: AWS SSM Send Command
 			  uses: peterkimzz/aws-ssm-send-command@1.0.1
 			  with:
