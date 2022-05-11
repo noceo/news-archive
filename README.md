@@ -1,4 +1,4 @@
-![Deploy using AWS SSM Send-Command](https://github.com/noceo/news-archive/actions/workflows/deploy.yml/badge.svg)
+![deploy](https://github.com/noceo/news-archive/actions/workflows/deploy.yml/badge.svg)
 
 # NewsArchive
 
