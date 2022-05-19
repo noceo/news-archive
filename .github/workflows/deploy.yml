@@ -18,7 +18,7 @@ jobs:
         id: deploy
         run: |
           aws deploy create-deployment \
-            --application-name NewsArchive \
-            --deployment-group-name NewsArchiveGroup \
+            --application-name news-archive \
+            --deployment-group-name news-archive-group \
             --deployment-config-name CodeDeployDefault.OneAtATime \
             --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
