@@ -3,6 +3,8 @@ os: linux
 files:
  - source: .
    destination: /home/ec2-user/news-archive
+file_exists_behavior: OVERWRITE
+
 hooks:
   AfterInstall:
    - location: scripts/install_app_dependencies
