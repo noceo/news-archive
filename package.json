@@ -4,9 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev:server": "nodemon ./src/index.js",
-    "dev:client": "npm run dev --prefix ./client",
-    "build:client": "npm run build --prefix ./client",
+    "dev": "nodemon ./src/index.js",
     "lint": "eslint src/*",
     "test": "mocha"
   },
