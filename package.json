@@ -8,17 +8,24 @@
     "lint": "eslint src/*",
     "test": "mocha"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "author": "Paul Schade",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^3.14.0",
     "dotenv": "^16.0.0",
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "pg": "^8.7.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15",
+    "@faker-js/faker": "^7.0.1",
     "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.5.1"
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "prisma": "^3.14.0"
   }
 }
