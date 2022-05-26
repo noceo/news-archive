@@ -12,8 +12,8 @@ datasource db {
 
 model Publisher {
   id            BigInt                @id @default(autoincrement())
-  name          String                @db.VarChar(20)
-  authors       AuthorsOnPublishers[]
+  name          String                @db.VarChar(60)
+  articles      Article[]
 
   @@unique([name])
 }
@@ -21,28 +21,21 @@ model Publisher {
 model Author {
   id            BigInt                @id @default(autoincrement())
   firstname     String                @db.VarChar(20)
-  lastname      String                @db.VarChar(50)
-  articles      Article[]
-  publishers    AuthorsOnPublishers[]
-}
-
-model AuthorsOnPublishers {
-  publisher     Publisher   @relation(fields: [publisherId], references: [id])
-  publisherId   BigInt
-  author        Author      @relation(fields: [authorId], references: [id])
-  authorId      BigInt
-
-  @@id([publisherId, authorId])
+  lastname      String                @db.VarChar(20)
+  articles      AuthorsOnArticles[]
 }
 
 model Article {
-  id            BigInt                  @id @default(autoincrement())
-  title         String
-  subline       String?
-  copy          String
-  Author        Author?                 @relation(fields: [authorId], references: [id])
-  authorId      BigInt?
-  categories    CategoriesOnArticles[]
+  id              BigInt                  @id @default(autoincrement())
+  title           String
+  subtitle        String?
+  copy            String
+  published_at    DateTime
+  checked_out_at  DateTime
+  publisher       Publisher               @relation(fields: [publisherId], references: [id], onDelete: Cascade)
+  publisherId     BigInt
+  authors         AuthorsOnArticles[]
+  categories      CategoriesOnArticles[]
 }
 
 model Category {
@@ -51,6 +44,15 @@ model Category {
   articles      CategoriesOnArticles[]
 
   @@unique([name])
+}
+
+model AuthorsOnArticles {
+  author        Author   @relation(fields: [authorId], references: [id])
+  authorId      BigInt
+  article       Article  @relation(fields: [articleId], references: [id])
+  articleId     BigInt
+
+  @@id([authorId, articleId])
 }
 
 model CategoriesOnArticles {
