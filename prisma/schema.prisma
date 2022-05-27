@@ -32,8 +32,8 @@ model Article {
   copy            String
   published_at    DateTime
   checked_out_at  DateTime
-  publisher       Publisher               @relation(fields: [publisherId], references: [id], onDelete: Cascade)
-  publisherId     BigInt
+  publisher       Publisher               @relation(fields: [publisher_id], references: [id], onDelete: Cascade)
+  publisher_id     BigInt
   authors         AuthorsOnArticles[]
   categories      CategoriesOnArticles[]
 }
@@ -47,19 +47,19 @@ model Category {
 }
 
 model AuthorsOnArticles {
-  author        Author   @relation(fields: [authorId], references: [id])
-  authorId      BigInt
-  article       Article  @relation(fields: [articleId], references: [id])
-  articleId     BigInt
+  author        Author   @relation(fields: [author_id], references: [id])
+  author_id      BigInt
+  article       Article  @relation(fields: [article_id], references: [id])
+  article_id     BigInt
 
-  @@id([authorId, articleId])
+  @@id([author_id, article_id])
 }
 
 model CategoriesOnArticles {
-  category      Category   @relation(fields: [categoryId], references: [id])
-  categoryId    BigInt
-  article       Article    @relation(fields: [articleId], references: [id])
-  articleId     BigInt
+  category      Category   @relation(fields: [category_id], references: [id])
+  category_id    BigInt
+  article       Article    @relation(fields: [article_id], references: [id])
+  article_id     BigInt
 
-  @@id([categoryId, articleId])
+  @@id([category_id, article_id])
 }

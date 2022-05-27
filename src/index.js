@@ -1,9 +1,15 @@
 const express = require('express')
 const app = express()
-var api = require('./api.js')
+const api = require('./api-v1/index')
 const port = 3000
+const errorLogger = require('./middleware/error-logger')
+const errorResponder = require('./middleware/error-responder')
+const invalidPathHandler = require('./middleware/invalid-path-handler')
 
-app.use('/api', api)
+app.use('/api/v1', api)
+app.use(errorLogger)
+app.use(errorResponder)
+app.use(invalidPathHandler)
 
 app.get('/', (req, res) => {
   res.send('Hello World')
