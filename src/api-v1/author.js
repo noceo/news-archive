@@ -4,9 +4,18 @@ const errors = require('../errors')
 const prisma = new PrismaClient()
 const router = express.Router()
 
-router.get('/', async (req, res) => {
-  const authors = await prisma.author.findMany()
-  res.status(200).json(authors)
+router.get('/', async (req, res, next) => {
+  try {
+    const authors = await prisma.author.findMany()
+    if (authors) {
+      res.status(200).json(authors)
+      return
+    }
+    throw new Error('No Articles found.')
+  } catch (error) {
+    error.type = errors.NotFound
+    next(error)
+  }
 })
 
 router.get('/:id', async (req, res, next) => {
