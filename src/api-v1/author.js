@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
       res.status(200).json(authors)
       return
     }
-    throw new Error('No Articles found.')
+    throw new Error('No authors found.')
   } catch (error) {
     error.type = errors.NotFound
     next(error)
@@ -28,7 +28,7 @@ router.get('/:id', async (req, res, next) => {
       res.status(200).json(author)
       return
     }
-    throw new Error('The requested resource could not be found.')
+    throw new Error('The requested author could not be found.')
   } catch (error) {
     error.type = errors.NotFound
     next(error)

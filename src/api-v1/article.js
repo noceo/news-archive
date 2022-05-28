@@ -12,13 +12,17 @@ router.get('/', async (req, res, next) => {
         authors: {
           select: { author: true },
         },
+        categories: {
+          select: { category: true },
+        },
       },
     })
     if (articles) {
+      articles.map((article) => delete article.publisher_id)
       res.status(200).json(articles)
       return
     }
-    throw new Error('No Articles found.')
+    throw new Error('No articles found.')
   } catch (error) {
     error.type = errors.NotFound
     next(error)
@@ -35,13 +39,17 @@ router.get('/:id', async (req, res, next) => {
         authors: {
           select: { author: true },
         },
+        categories: {
+          select: { category: true },
+        },
       },
     })
     if (article) {
+      delete article.publisher_id
       res.status(200).json(article)
       return
     }
-    throw new Error('The requested resource could not be found.')
+    throw new Error('The requested article could not be found.')
   } catch (error) {
     error.type = errors.NotFound
     next(error)
