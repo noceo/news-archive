@@ -6,8 +6,7 @@ async function main() {
   // Create sample authors
   for (let i = 0; i < 10; i++) {
     const author = {
-      firstname: faker.name.firstName(),
-      lastname: faker.name.lastName(),
+      name: faker.name.firstName() + faker.name.lastName(),
     }
     await prisma.author.create({ data: author })
   }
