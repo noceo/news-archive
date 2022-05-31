@@ -34,7 +34,7 @@ model Article {
   published_at    DateTime
   checked_out_at  DateTime
   publisher       Publisher               @relation(fields: [publisher_id], references: [id], onDelete: Cascade)
-  publisher_id     BigInt
+  publisher_id    BigInt
   authors         AuthorsOnArticles[]
   categories      CategoriesOnArticles[]
 }
@@ -48,9 +48,9 @@ model Category {
 }
 
 model AuthorsOnArticles {
-  author        Author   @relation(fields: [author_id], references: [id])
+  author        Author   @relation(fields: [author_id], references: [id], onDelete: SetNull)
   author_id      BigInt
-  article       Article  @relation(fields: [article_id], references: [id])
+  article       Article  @relation(fields: [article_id], references: [id], onDelete: Cascade)
   article_id     BigInt
 
   @@id([author_id, article_id])

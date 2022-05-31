@@ -6,5 +6,7 @@ const publishers = {
 
 const scraperFunctions = [faz]
 
-module.exports.publishers = publishers
-module.exports.scraperFunctions = scraperFunctions
+module.exports = {
+  publishers: publishers,
+  scraperFunctions: scraperFunctions,
+}

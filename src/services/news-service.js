@@ -4,6 +4,8 @@ async function getArticles() {
   await Promise.allSettled(scraperFunctions.map((func) => func()))
 }
 
-getArticles()
+// getArticles()
 
-module.exports = getArticles
+module.exports = {
+  getArticles: getArticles,
+}

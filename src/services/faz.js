@@ -23,7 +23,6 @@ const crawler = new Crawler({
         'EEE MMMM dd HH:mm:ss yyyy'
       )
       publishDate = publishDate.setZone('UTC+2')
-      console.log(article.headline)
       article = {
         title: article.headline,
         subtitle: article.description,
