@@ -1,10 +1,19 @@
-const { scraperFunctions } = require('./publishers')
+const saveArticleToDatabase = require('../helpers/database')
+const { scrapers } = require('./publishers')
 
 async function getArticles() {
-  await Promise.allSettled(scraperFunctions.map((func) => func()))
+  const result = await Promise.allSettled(
+    scrapers.map((scraper) => scraper.getAllArticles())
+  )
+  result.forEach((promise) => {
+    if (promise.status === 'rejected') return
+    promise.value.forEach((article) => {
+      saveArticleToDatabase(article)
+    })
+  })
 }
 
-// getArticles()
+getArticles()
 
 module.exports = {
   getArticles: getArticles,

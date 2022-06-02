@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 async function saveArticleToDatabase(article) {
-  let articles = await prisma.article.create({
+  let savedArticle = await prisma.article.create({
     data: {
       title: article.title,
       subtitle: article.subtitle,
@@ -25,7 +25,7 @@ async function saveArticleToDatabase(article) {
             author: {
               connectOrCreate: {
                 where: { name: author.name },
-                create: { name: author.name },
+                create: { name: author.name, type: author.type },
               },
             },
           }
@@ -33,7 +33,7 @@ async function saveArticleToDatabase(article) {
       },
     },
   })
-  console.log('Saved article to database', article.title)
+  console.log('Saved article to database', savedArticle.title)
 }
 
 module.exports = saveArticleToDatabase
