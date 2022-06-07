@@ -1,5 +1,5 @@
 ![deploy](https://github.com/noceo/news-archive/actions/workflows/deploy.yml/badge.svg)
 
-# NewsArchive
+# news-archive
 
-A web application built to make news explorable. Every single day news get pulled from an external API. The articles are stored in a database on AWS. The client is built with Nuxt.js and visually prepares the data to let the user explore the hottest news or news from ancient times.
+A REST-API built to power the news-archive client which makes news from the past explorable. Every day, news get pulled from different sources on the web and are stored in a database. This API provides access to these articles in a structured way.
