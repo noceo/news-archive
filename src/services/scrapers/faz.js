@@ -3,20 +3,28 @@ const Parser = require('rss-parser')
 const parser = new Parser()
 const Crawler = require('crawler')
 const { DateTime } = require('luxon')
+const { AuthorType, MediaType } = require('@prisma/client')
 
 const crawler = new Crawler({
   maxConnections: 10,
 })
 
 function Faz() {
-  this.routes = [
-    'politik',
-    'wirtschaft',
-    'finanzen',
-    'feuilleton',
-    'sport',
-    'gesellschaft',
-  ]
+  const slugs = {
+    politics: 'politik',
+    // economy: 'wirtschaft',
+    // business: 'finanzen',
+    // feuilleton: 'feuilleton',
+    // sports: 'sport',
+    // society: 'gesellschaft',
+  }
+
+  this.routes = Object.entries(slugs).map((item) => {
+    return {
+      category: item[0],
+      slug: item[1],
+    }
+  })
 
   this.config = () => {
     axios = axios.create({
@@ -27,15 +35,19 @@ function Faz() {
   this.config()
 
   this.getAllArticles = async () => {
+    console.log(this.routes)
     let foundArticles = []
     for (const route of this.routes) {
+      console.log('RUN')
       try {
-        const result = await axios.get(route)
+        const result = await axios.get(route.slug)
         const parsedXML = await parser.parseString(result.data)
         const article = await getArticle(parsedXML.items[0].link)
+        article.categories = [route.category]
+        console.log('TEST')
         foundArticles.push(article)
       } catch (error) {
-        console.log(error)
+        console.log('ERROR', error)
       }
     }
     return foundArticles
@@ -47,23 +59,42 @@ function Faz() {
         uri: uri,
         callback: (err, res, done) => {
           if (err) {
-            console.log(err)
+            console.log('ERROR 1', err)
             done()
             reject(err)
           } else {
             const $ = res.$
             let article = $('script[type="application/ld+json"]').eq(1).html()
             article = JSON.parse(article)
-            if (article.isAccessibleForFree.endsWith('False')) {
-              done()
-              reject()
-            }
             article.datePublished = article.datePublished.replace('CEST ', '')
             let publishDate = DateTime.fromFormat(
               article.datePublished,
               'EEE MMM dd HH:mm:ss yyyy'
             )
             publishDate = publishDate.setZone('UTC+2')
+            console.log(article)
+
+            let authors = Array.isArray(article.author)
+              ? article.author
+              : [article.author]
+            authors = authors.map((author) => {
+              const type =
+                author['@type'] === 'Person'
+                  ? AuthorType.PERSON
+                  : AuthorType.ORGANIZATION
+              return {
+                name: author.name,
+                type: type,
+              }
+            })
+
+            const media = [
+              {
+                url: article.image[0].url,
+                type: MediaType.IMAGE,
+              },
+            ]
+
             article = {
               title: article.headline,
               subtitle: article.description,
@@ -71,8 +102,10 @@ function Faz() {
               published_at: publishDate.toJSDate(),
               checked_out_at: new Date(),
               publisher: article.publisher.name,
-              authors: [article.author],
+              authors,
+              media,
             }
+
             done()
             resolve(article)
           }

@@ -11,6 +11,6 @@ const publishers = {
 const scrapers = [faz]
 
 module.exports = {
-  publishers: publishers,
-  scrapers: scrapers,
+  publishers,
+  scrapers,
 }

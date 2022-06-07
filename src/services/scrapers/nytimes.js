@@ -1,14 +1,14 @@
 require('dotenv').config()
 let axios = require('axios').default
 const Crawler = require('crawler')
-const { AuthorType } = require('@prisma/client')
+const { AuthorType, MediaType } = require('@prisma/client')
 
 const crawler = new Crawler({
   maxConnections: 10,
 })
 
 function NYTimes() {
-  this.routes = ['politics', 'business', 'world', 'us', 'sports', 'opinion']
+  this.routes = ['politics'] //, 'business', 'world', 'us', 'sports', 'opinion']
 
   this.config = () => {
     axios = axios.create({
@@ -38,6 +38,16 @@ function NYTimes() {
               type: AuthorType.PERSON,
             }
           })
+        const categories = [result.section.toLowerCase()]
+        if (result.subsection) categories.push(result.subsection.toLowerCase())
+
+        const media = article.image.map((image) => {
+          return {
+            url: image.url,
+            type: MediaType.IMAGE,
+          }
+        })
+
         const article = {
           title: result.title,
           subtitle: result.abstract,
@@ -45,7 +55,9 @@ function NYTimes() {
           published_at: new Date(result.published_date),
           checked_out_at: new Date(),
           publisher: 'New York Times',
-          authors: authors,
+          authors,
+          categories,
+          media,
         }
         foundArticles.push(article)
       } catch (error) {

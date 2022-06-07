@@ -16,5 +16,5 @@ async function getArticles() {
 getArticles()
 
 module.exports = {
-  getArticles: getArticles,
+  getArticles,
 }
