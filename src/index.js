@@ -5,9 +5,9 @@ const port = 3000
 const errorLogger = require('./middleware/error-logger')
 const errorResponder = require('./middleware/error-responder')
 const invalidPathHandler = require('./middleware/invalid-path-handler')
-const searchArticlesJob = require('./jobs/search-articles')
+// const searchArticlesJob = require('./jobs/search-articles')
 
-searchArticlesJob()
+// searchArticlesJob()
 
 app.use('/api/v1', api)
 app.use(errorLogger)
