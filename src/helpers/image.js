@@ -1,4 +1,3 @@
-require('dotenv').config()
 const { S3 } = require('aws-sdk')
 const axios = require('axios').default
 const { PassThrough } = require('stream')

@@ -38,16 +38,14 @@ function Faz() {
     console.log(this.routes)
     let foundArticles = []
     for (const route of this.routes) {
-      console.log('RUN')
       try {
         const result = await axios.get(route.slug)
         const parsedXML = await parser.parseString(result.data)
         const article = await getArticle(parsedXML.items[0].link)
         article.categories = [route.category]
-        console.log('TEST')
         foundArticles.push(article)
       } catch (error) {
-        console.log('ERROR', error)
+        console.log(error)
       }
     }
     return foundArticles
@@ -59,7 +57,6 @@ function Faz() {
         uri: uri,
         callback: (err, res, done) => {
           if (err) {
-            console.log('ERROR 1', err)
             done()
             reject(err)
           } else {

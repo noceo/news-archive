@@ -1,4 +1,3 @@
-require('dotenv').config()
 let axios = require('axios').default
 const Crawler = require('crawler')
 const { AuthorType, MediaType } = require('@prisma/client')
