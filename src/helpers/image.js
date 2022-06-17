@@ -1,7 +1,7 @@
-const { S3 } = require('aws-sdk')
-const axios = require('axios').default
-const { PassThrough } = require('stream')
-const crypto = require('crypto')
+import { S3 } from 'aws-sdk'
+import axios from 'axios'
+import { PassThrough } from 'stream'
+import { createHash } from 'crypto'
 
 const bucketName = process.env.S3_BUCKET_1_NAME
 const region = process.env.S3_BUCKET_1_REGION
@@ -38,9 +38,7 @@ function uploadFromStream(fileResponse, fileName) {
 async function uploadImage(url) {
   const responseStream = await downloadAsStream(url)
   var filename =
-    crypto.createHash('md5').update(url).digest('hex') +
-    '.' +
-    url.split('.').pop()
+    createHash('md5').update(url).digest('hex') + '.' + url.split('.').pop()
   const { passThrough, promise } = uploadFromStream(responseStream, filename)
 
   responseStream.data.pipe(passThrough)
@@ -62,7 +60,7 @@ function getFileStream(fileName) {
   return s3.getObject(downloadParams).createReadStream()
 }
 
-module.exports = {
+export default {
   uploadImage,
   getFileStream,
 }

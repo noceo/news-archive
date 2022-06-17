@@ -1,6 +1,6 @@
-let axios = require('axios').default
-const Crawler = require('crawler')
-const { AuthorType, MediaType } = require('@prisma/client')
+import axios from 'axios'
+import Crawler from 'crawler'
+import { AuthorType, MediaType } from '@prisma/client'
 
 const crawler = new Crawler({
   maxConnections: 10,
@@ -90,4 +90,4 @@ function getArticleText(uri) {
   })
 }
 
-module.exports = NYTimes
+export default NYTimes

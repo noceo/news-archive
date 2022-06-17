@@ -1,11 +1,14 @@
-require('dotenv').config()
-const express = require('express')
+import dotenv from 'dotenv'
+import express from 'express'
+import api from './api-v1/index'
+import errorLogger from './middleware/error-logger'
+import errorResponder from './middleware/error-responder'
+import invalidPathHandler from './middleware/invalid-path-handler'
+
+dotenv.config()
 const app = express()
-const api = require('./api-v1/index')
 const port = 3000
-const errorLogger = require('./middleware/error-logger')
-const errorResponder = require('./middleware/error-responder')
-const invalidPathHandler = require('./middleware/invalid-path-handler')
+
 // const searchArticlesJob = require('./jobs/search-articles')
 
 // searchArticlesJob()

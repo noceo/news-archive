@@ -1,4 +1,5 @@
-const Faz = require('./scrapers/faz')
+import Faz from './scrapers/faz'
+
 const faz = new Faz()
 // const NYTimes = require('./scrapers/nytimes')
 // const nytimes = new NYTimes()
@@ -10,7 +11,7 @@ const publishers = {
 
 const scrapers = [faz]
 
-module.exports = {
+export default {
   publishers,
   scrapers,
 }

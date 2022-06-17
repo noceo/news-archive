@@ -3,4 +3,4 @@ const errorLogger = (error, request, response, next) => {
   next(error) // calling next middleware
 }
 
-module.exports = errorLogger
+export default errorLogger

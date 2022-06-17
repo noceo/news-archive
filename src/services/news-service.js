@@ -1,5 +1,5 @@
-const saveArticleToDatabase = require('../helpers/database')
-const { scrapers } = require('./publishers')
+import saveArticleToDatabase from '../helpers/database'
+import { scrapers } from './publishers'
 
 async function getArticles() {
   const result = await Promise.allSettled(
@@ -15,6 +15,6 @@ async function getArticles() {
 
 getArticles()
 
-module.exports = {
+export default {
   getArticles,
 }

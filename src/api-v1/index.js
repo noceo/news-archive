@@ -1,9 +1,9 @@
-const express = require('express')
-const articleRoutes = require('./article')
-const authorRoutes = require('./author')
-const publisherRoutes = require('./publisher')
-const router = express.Router()
+import { Router } from 'express'
+import articleRoutes from './article'
+import authorRoutes from './author'
+import publisherRoutes from './publisher'
 
+const router = Router()
 router.use('/articles', articleRoutes)
 router.use('/authors', authorRoutes)
 router.use('/publishers', publisherRoutes)
@@ -17,4 +17,4 @@ router.get('/', (req, res) => {
   res.send('API')
 })
 
-module.exports = router
+export default router

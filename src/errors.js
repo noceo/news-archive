@@ -3,4 +3,4 @@ const ErrorType = {
   InternalServerError: 500,
 }
 
-module.exports = ErrorType
+export default ErrorType

@@ -1,8 +1,9 @@
-const express = require('express')
-const { PrismaClient } = require('@prisma/client')
-const errors = require('../errors')
+import { Router } from 'express'
+import { PrismaClient } from '@prisma/client'
+import { NotFound } from '../errors'
+
 const prisma = new PrismaClient()
-const router = express.Router()
+const router = Router()
 
 router.get('/', async (req, res, next) => {
   try {
@@ -24,7 +25,7 @@ router.get('/', async (req, res, next) => {
     }
     throw new Error('No articles found.')
   } catch (error) {
-    error.type = errors.NotFound
+    error.type = NotFound
     next(error)
   }
 })
@@ -51,9 +52,9 @@ router.get('/:id', async (req, res, next) => {
     }
     throw new Error('The requested article could not be found.')
   } catch (error) {
-    error.type = errors.NotFound
+    error.type = NotFound
     next(error)
   }
 })
 
-module.exports = router
+export default router

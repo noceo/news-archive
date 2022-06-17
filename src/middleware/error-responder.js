@@ -1,9 +1,9 @@
-const errors = require('../errors')
+import { NotFound } from '../errors'
 
 const errorResponder = (error, req, res, next) => {
-  console.log('Error middleware called!' + errors.NotFound)
-  if (error.type == errors.NotFound) {
-    res.status(errors.NotFound).json({
+  console.log('Error middleware called!' + NotFound)
+  if (error.type == NotFound) {
+    res.status(NotFound).json({
       error: 'The requested resource could not be found.',
     })
     return
@@ -12,4 +12,4 @@ const errorResponder = (error, req, res, next) => {
   res.status(status).json({ error: error.message })
 }
 
-module.exports = errorResponder
+export default errorResponder

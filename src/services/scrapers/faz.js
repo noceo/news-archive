@@ -1,9 +1,10 @@
-let axios = require('axios').default
-const Parser = require('rss-parser')
+import axios from 'axios'
+import Parser from 'rss-parser'
+import Crawler from 'crawler'
+import { DateTime } from 'luxon'
+import { AuthorType, MediaType } from '@prisma/client'
+
 const parser = new Parser()
-const Crawler = require('crawler')
-const { DateTime } = require('luxon')
-const { AuthorType, MediaType } = require('@prisma/client')
 
 const crawler = new Crawler({
   maxConnections: 10,
@@ -112,4 +113,4 @@ function Faz() {
   }
 }
 
-module.exports = Faz
+export default Faz

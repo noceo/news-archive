@@ -1,6 +1,7 @@
-const { PrismaClient, MediaType } = require('@prisma/client')
+import { PrismaClient, MediaType } from '@prisma/client'
+import { uploadImage } from '../helpers/image'
+
 const prisma = new PrismaClient()
-const { uploadImage } = require('../helpers/image')
 
 async function saveArticleToDatabase(article) {
   let media = []
@@ -72,4 +73,4 @@ async function saveArticleToDatabase(article) {
   console.log('Saved article to database', savedArticle.title)
 }
 
-module.exports = saveArticleToDatabase
+export default saveArticleToDatabase
