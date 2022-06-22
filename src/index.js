@@ -4,14 +4,13 @@ import api from './api-v1/index'
 import errorLogger from './middleware/error-logger'
 import errorResponder from './middleware/error-responder'
 import invalidPathHandler from './middleware/invalid-path-handler'
+import searchArticlesJob from './jobs/search-articles'
 
 dotenv.config()
 const app = express()
 const port = 3000
 
-// const searchArticlesJob = require('./jobs/search-articles')
-
-// searchArticlesJob()
+searchArticlesJob()
 
 app.use('/api/v1', api)
 app.use(errorLogger)

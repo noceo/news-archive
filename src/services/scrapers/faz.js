@@ -28,7 +28,7 @@ function Faz() {
   })
 
   this.config = () => {
-    axios = axios.create({
+    this.axios = axios.create({
       baseURL: 'https://www.faz.net/rss/aktuell/',
     })
   }
@@ -36,11 +36,10 @@ function Faz() {
   this.config()
 
   this.getAllArticles = async () => {
-    console.log(this.routes)
     let foundArticles = []
     for (const route of this.routes) {
       try {
-        const result = await axios.get(route.slug)
+        const result = await this.axios.get(route.slug)
         const parsedXML = await parser.parseString(result.data)
         const article = await getArticle(parsedXML.items[0].link)
         article.categories = [route.category]

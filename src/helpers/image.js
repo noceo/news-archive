@@ -60,7 +60,4 @@ function getFileStream(fileName) {
   return s3.getObject(downloadParams).createReadStream()
 }
 
-export default {
-  uploadImage,
-  getFileStream,
-}
+export { uploadImage, getFileStream }

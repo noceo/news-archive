@@ -11,7 +11,4 @@ const publishers = {
 
 const scrapers = [faz]
 
-export default {
-  publishers,
-  scrapers,
-}
+export { publishers, scrapers }

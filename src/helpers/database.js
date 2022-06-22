@@ -11,7 +11,7 @@ async function saveArticleToDatabase(article) {
     )
     media = uploadPromises.map((promise) => {
       const fileExtension = promise.value.split('.').pop()
-      const type = ['png', 'jpeg'].includes(fileExtension)
+      const type = ['png', 'jpeg', 'jpg'].includes(fileExtension)
         ? MediaType.IMAGE
         : MediaType.VIDEO
       if (promise.status === 'fulfilled') {
