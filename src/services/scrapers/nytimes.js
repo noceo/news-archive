@@ -10,11 +10,11 @@ function NYTimes() {
   this.routes = ['politics'] //, 'business', 'world', 'us', 'sports', 'opinion']
 
   this.config = () => {
-    axios = axios.create({
+    this.axios = axios.create({
       baseURL: 'https://api.nytimes.com/svc/topstories/v2/',
     })
-    axios.defaults.params = {}
-    axios.defaults.params['api-key'] = process.env.NYTIMES_API_KEY
+    this.axios.defaults.params = {}
+    this.axios.defaults.params['api-key'] = process.env.NYTIMES_API_KEY
   }
 
   this.config()
@@ -23,7 +23,7 @@ function NYTimes() {
     let foundArticles = []
     for (const route of this.routes) {
       try {
-        let result = await axios.get(route + '.json')
+        let result = await this.axios.get(route + '.json')
         result = result.data.results.find(
           (item) => item.item_type === 'Article'
         )
@@ -40,12 +40,13 @@ function NYTimes() {
         const categories = [result.section.toLowerCase()]
         if (result.subsection) categories.push(result.subsection.toLowerCase())
 
-        const media = article.image.map((image) => {
-          return {
-            url: image.url,
+        const media = []
+        if (result.multimedia.length > 0) {
+          media[0] = {
+            url: result.multimedia[0].url,
             type: MediaType.IMAGE,
           }
-        })
+        }
 
         const article = {
           title: result.title,
