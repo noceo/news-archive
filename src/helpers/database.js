@@ -73,4 +73,16 @@ async function saveArticleToDatabase(article) {
   console.log('Saved article to database', savedArticle.title)
 }
 
-export default saveArticleToDatabase
+async function checkArticleForRedundancy(title, author, publisher) {
+  const redundantRecord = await prisma.article.findFirst({
+    where: {
+      title: {
+        equals: title,
+      },
+    },
+  })
+
+  return redundantRecord !== null
+}
+
+export { saveArticleToDatabase, checkArticleForRedundancy }
