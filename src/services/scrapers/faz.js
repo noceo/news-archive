@@ -69,7 +69,7 @@ function Faz() {
               'EEE MMM dd HH:mm:ss yyyy'
             )
             publishDate = publishDate.setZone('UTC+2')
-            console.log(article)
+            // console.log(article)
 
             let authors = Array.isArray(article.author)
               ? article.author
@@ -85,12 +85,13 @@ function Faz() {
               }
             })
 
-            const media = [
-              {
+            const media = []
+            if (article.image.length > 0) {
+              media[0] = {
                 url: article.image[0].url,
                 type: MediaType.IMAGE,
-              },
-            ]
+              }
+            }
 
             article = {
               title: article.headline,
