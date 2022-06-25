@@ -2,9 +2,8 @@ import {
   saveArticleToDatabase,
   checkArticleForRedundancy,
 } from '../helpers/database'
-import { scrapers } from './publishers'
 
-async function getArticles() {
+async function runScrapers(scrapers) {
   return Promise.allSettled(
     scrapers.map(async (scraper) => {
       try {
@@ -24,4 +23,4 @@ async function getArticles() {
   )
 }
 
-export { getArticles }
+export { runScrapers }

@@ -1,9 +1,17 @@
 import { schedule } from 'node-cron'
-import { getArticles } from '../services/news-service'
+import { runScrapers } from '../services/news-service'
+import timezones from './timezones'
 
 export default () => {
-  schedule('*/30 * * * * *', () => {
-    getArticles()
-    console.log('Scheduled Job!')
+  const scrapeTimes = [9, 15]
+  timezones.forEach((timezone) => {
+    const timeslots = scrapeTimes
+      .map((timeslot) => (timeslot - timezone.timeDifference) % 24)
+      .join()
+    schedule(`* * ${timeslots} * * *`, async () => {
+      console.log('Scheduled Job!')
+      await runScrapers(timezone.scrapers)
+      console.log('Done')
+    })
   })
 }
