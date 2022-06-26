@@ -1,5 +1,5 @@
-const { faker } = require('@faker-js/faker')
-const { PrismaClient } = require('@prisma/client')
+import { faker } from '@faker-js/faker'
+import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
