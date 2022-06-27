@@ -1,4 +1,4 @@
-import Faz from '../../services/scrapers/faz'
+import Faz from '@services/scrapers/faz'
 
 const faz = new Faz()
 

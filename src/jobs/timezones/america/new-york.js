@@ -1,4 +1,4 @@
-import NYTimes from '../../services/scrapers/nytimes'
+import NYTimes from '@services/scrapers/nytimes'
 
 const nytimes = new NYTimes()
 

@@ -1,7 +1,7 @@
 import {
   saveArticleToDatabase,
   checkArticleForRedundancy,
-} from '../helpers/database'
+} from '@helpers/database'
 
 async function runScrapers(scrapers) {
   console.log(scrapers)

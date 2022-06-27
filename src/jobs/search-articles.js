@@ -1,5 +1,5 @@
 import { schedule } from 'node-cron'
-import { runScrapers } from '../services/news-service'
+import { runScrapers } from '@services/news-service'
 import timezones from './timezones'
 
 export default () => {
