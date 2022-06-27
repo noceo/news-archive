@@ -1,4 +1,3 @@
-import 'module-alias/register'
 import dotenv from 'dotenv'
 import express from 'express'
 import api from './api-v1/index'
