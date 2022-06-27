@@ -1,20 +1,17 @@
 version: 0.0
 os: linux
 files:
- - source: .
-   destination: /home/ec2-user/news-archive
+  - source: .
+    destination: /home/ec2-user/news-archive
 file_exists_behavior: OVERWRITE
 
 hooks:
   ApplicationStop:
-  - location: scripts/stop-server.sh
-    timeout: 300
-    runas: root
+    - location: scripts/stop-server.sh
+      timeout: 300
   AfterInstall:
-  - location: scripts/install_app_dependencies.sh
-    timeout: 300
-    runas: root
+    - location: scripts/install_app_dependencies.sh
+      timeout: 300
   ApplicationStart:
-  - location: scripts/start_server.sh
-    timeout: 300
-    runas: root
+    - location: scripts/start_server.sh
+      timeout: 300
