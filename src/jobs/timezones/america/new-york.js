@@ -4,5 +4,7 @@ const nytimes = new NYTimes()
 
 export default {
   scrapers: [nytimes],
-  timeDifference: -4,
+  std: -5,
+  dst: -4,
+  name: 'America/New_York',
 }

@@ -4,5 +4,7 @@ const faz = new Faz()
 
 export default {
   scrapers: [faz],
-  timeDifference: 2,
+  std: 1,
+  dst: 2,
+  name: 'Europe/Berlin',
 }
