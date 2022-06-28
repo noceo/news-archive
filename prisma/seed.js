@@ -47,7 +47,7 @@ async function main() {
 
   // Create sample articles
   for (let i = 0; i < 10; i++) {
-    const timestamp = new Date().toISOString()
+    const timestamp = randomDate(new Date(2012, 0, 1), new Date()).toISOString()
     const randomPublisherId = Math.floor(Math.random() * 10) + 1
     const article = {
       title: faker.lorem.sentence(),
@@ -79,6 +79,12 @@ async function main() {
     }
     await prisma.article.create({ data: article })
   }
+}
+
+function randomDate(start, end) {
+  return new Date(
+    start.getTime() + Math.random() * (end.getTime() - start.getTime())
+  )
 }
 
 main()
