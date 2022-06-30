@@ -31,6 +31,7 @@ router.get('/:id', async (req, res, next) => {
     }
     throw new Error('The requested author could not be found.')
   } catch (error) {
+    console.log(ErrorType)
     error.type = ErrorType.NotFound
     next(error)
   }

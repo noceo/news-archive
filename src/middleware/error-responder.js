@@ -1,9 +1,8 @@
-import { NotFound } from '../errors'
+import ErrorType from '../errors'
 
 const errorResponder = (error, req, res, next) => {
-  console.log('Error middleware called!' + NotFound)
-  if (error.type == NotFound) {
-    res.status(NotFound).json({
+  if (error.type == ErrorType.NotFound) {
+    res.status(ErrorType.NotFound).json({
       error: 'The requested resource could not be found.',
     })
     return
