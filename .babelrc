@@ -16,7 +16,6 @@
       "module-resolver",
       {
         "alias": {
-          "@src": "./src",
           "@helpers": "./src/helpers",
           "@jobs": "./src/jobs",
           "@middleware": "./src/middleware",
