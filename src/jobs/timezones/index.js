@@ -1,4 +1,4 @@
-import new_york from './america/new-york'
+// import nytimes from './nytimes'
 import berlin from './europe/berlin'
 
-export default [new_york, berlin]
+export default [berlin]

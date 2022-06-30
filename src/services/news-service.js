@@ -4,7 +4,6 @@ import {
 } from '@helpers/database'
 
 async function runScrapers(scrapers) {
-  console.log(scrapers)
   return Promise.allSettled(
     scrapers.map(async (scraper) => {
       try {

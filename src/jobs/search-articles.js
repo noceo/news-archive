@@ -2,14 +2,14 @@ import { schedule } from 'node-cron'
 import { runScrapers } from '@services/news-service'
 import timezones from './timezones'
 
+const scrapeTimes = [9, 15].join()
+
 export default () => {
-  const scrapeTimes = [9, 15]
   timezones.forEach(async (timezone) => {
-    const timeslots = scrapeTimes.join()
     schedule(
-      `0 ${timeslots} * * *`,
+      `0 ${scrapeTimes} * * *`,
       async () => {
-        console.log('Scheduled Job!')
+        console.log('Scheduled Job for timezone: ', timezone.name)
         await runScrapers(timezone.scrapers)
         console.log('Done')
       },
