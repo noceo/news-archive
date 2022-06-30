@@ -6,9 +6,6 @@ import invalidPathHandler from './middleware/invalid-path-handler'
 import searchArticlesJob from './jobs/search-articles'
 
 const app = express()
-
-searchArticlesJob()
-
 app.use('/api/v1', api)
 app.use(errorLogger)
 app.use(errorResponder)
