@@ -3,7 +3,6 @@ import api from './api-v1/index'
 import errorLogger from './middleware/error-logger'
 import errorResponder from './middleware/error-responder'
 import invalidPathHandler from './middleware/invalid-path-handler'
-import searchArticlesJob from './jobs/search-articles'
 
 const app = express()
 app.use('/api/v1', api)
