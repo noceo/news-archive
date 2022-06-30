@@ -7,7 +7,7 @@ const crawler = new Crawler({
 })
 
 function NYTimes() {
-  this.routes = ['politics'] //, 'business', 'world', 'us', 'sports', 'opinion']
+  this.routes = ['politics', 'business', 'world', 'us', 'sports', 'opinion']
 
   this.config = () => {
     this.axios = axios.create({

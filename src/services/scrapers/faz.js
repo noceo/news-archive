@@ -13,11 +13,11 @@ const crawler = new Crawler({
 function Faz() {
   const slugs = {
     politics: 'politik',
-    // economy: 'wirtschaft',
-    // business: 'finanzen',
-    // feuilleton: 'feuilleton',
-    // sports: 'sport',
-    // society: 'gesellschaft',
+    economy: 'wirtschaft',
+    business: 'finanzen',
+    feuilleton: 'feuilleton',
+    sports: 'sport',
+    society: 'gesellschaft',
   }
 
   this.routes = Object.entries(slugs).map((item) => {
