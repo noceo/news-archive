@@ -1,6 +1,4 @@
-import dotenv from 'dotenv'
-dotenv.config()
-
+import 'dotenv/config'
 import express from 'express'
 import api from './api-v1/index'
 import errorLogger from './middleware/error-logger'
