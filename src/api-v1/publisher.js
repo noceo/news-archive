@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { PrismaClient } from '@prisma/client'
-import { NotFound } from '../errors'
+import { NotFound } from '@src/errors'
 const prisma = new PrismaClient()
 const router = Router()
 

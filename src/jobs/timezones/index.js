@@ -1,4 +1,4 @@
-import utcPlus2 from './utc+2'
-import utcMinus4 from './utc-4'
+import new_york from './america/new-york'
+import berlin from './europe/berlin'
 
-export default [utcPlus2, utcMinus4]
+export default [berlin, new_york]

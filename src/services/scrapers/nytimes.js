@@ -7,7 +7,7 @@ const crawler = new Crawler({
 })
 
 function NYTimes() {
-  this.routes = ['politics'] //, 'business', 'world', 'us', 'sports', 'opinion']
+  this.routes = ['politics', 'business', 'world', 'us', 'sports', 'opinion']
 
   this.config = () => {
     this.axios = axios.create({
@@ -41,7 +41,7 @@ function NYTimes() {
         if (result.subsection) categories.push(result.subsection.toLowerCase())
 
         const media = []
-        if (result.multimedia.length > 0) {
+        if (result.multimedia && result.multimedia.length > 0) {
           media[0] = {
             url: result.multimedia[0].url,
             type: MediaType.IMAGE,

@@ -1,7 +1,7 @@
 import {
   saveArticleToDatabase,
   checkArticleForRedundancy,
-} from '../helpers/database'
+} from '@helpers/database'
 
 async function runScrapers(scrapers) {
   return Promise.allSettled(
@@ -10,7 +10,7 @@ async function runScrapers(scrapers) {
         const articles = await scraper.getAllArticles()
         return Promise.allSettled(
           articles.map(async (article) => {
-            if (await checkArticleForRedundancy()) {
+            if (await checkArticleForRedundancy(article.title)) {
               return
             }
             await saveArticleToDatabase(article)

@@ -1,7 +1,7 @@
 {
   "presets": [
     [
-      "@babel/env",
+      "@babel/preset-env",
       {
         "targets": {
           "node": "current"
@@ -11,6 +11,18 @@
   ],
   "plugins": [
     "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-proposal-object-rest-spread"
+    "@babel/plugin-proposal-object-rest-spread",
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "@src": "./src",
+          "@helpers": "./src/helpers",
+          "@jobs": "./src/jobs",
+          "@middleware": "./src/middleware",
+          "@services": "./src/services"
+        }
+      }
+    ]
   ]
 }
