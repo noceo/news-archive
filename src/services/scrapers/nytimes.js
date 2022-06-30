@@ -30,7 +30,7 @@ function NYTimes() {
         const articleText = await getArticleText(result.url)
         const authors = result.byline
           .replace('By ', '')
-          .split(' and ')
+          .split(/(\sand\s*)|(,\s*)/)
           .map((author) => {
             return {
               name: author,
