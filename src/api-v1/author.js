@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { PrismaClient } from '@prisma/client'
-import { NotFound } from '../errors'
+import ErrorType from '../errors'
 
 const prisma = new PrismaClient()
 const router = Router()
@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
     }
     throw new Error('No authors found.')
   } catch (error) {
-    error.type = NotFound
+    error.type = ErrorType.NotFound
     next(error)
   }
 })
@@ -31,7 +31,7 @@ router.get('/:id', async (req, res, next) => {
     }
     throw new Error('The requested author could not be found.')
   } catch (error) {
-    error.type = NotFound
+    error.type = ErrorType.NotFound
     next(error)
   }
 })
