@@ -1,6 +1,6 @@
 import 'dotenv/config'
-import app from './app'
-import searchArticlesJob from './jobs/search-articles'
+import app from '@/app'
+import searchArticlesJob from '@jobs/search-articles'
 
 const port = process.env.API_PORT
 

@@ -17,10 +17,12 @@
       {
         "alias": {
           "@": "./src",
+          "@api": "./src/api/v1",
           "@helpers": "./src/helpers",
           "@jobs": "./src/jobs",
           "@middleware": "./src/middleware",
-          "@services": "./src/services"
+          "@services": "./src/services",
+          "@test": "./test"
         }
       }
     ]

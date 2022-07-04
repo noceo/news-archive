@@ -1,5 +1,5 @@
 import { PrismaClient, MediaType } from '@prisma/client'
-import { uploadImage } from '../helpers/image'
+import { uploadImage } from '@helpers/image'
 
 const prisma = new PrismaClient()
 

@@ -4,7 +4,14 @@
     "allowSyntheticDefaultImports": false,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@api/*": ["src/api/v1/*"],
+      "@errors/*": ["src/errors/*"],
+      "@helpers/*": ["src/helpers/*"],
+      "@jobs/*": ["src/jobs/*"],
+      "@middleware/*": ["src/middleware/*"],
+      "@services/*": ["src/services/*"],
+      "@test/*": ["test/*"]
     }
   },
   "exclude": ["node_modules", "dist"]
