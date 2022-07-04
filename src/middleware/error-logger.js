@@ -1,6 +1,6 @@
 const errorLogger = (error, request, response, next) => {
-  console.log(`Error ${error.message}`)
-  next(error) // calling next middleware
+  console.error(`Error Logger: ${error.message}`)
+  next(error)
 }
 
 export default errorLogger

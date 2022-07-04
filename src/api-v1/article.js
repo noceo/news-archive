@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { PrismaClient } from '@prisma/client'
-import ErrorType from '../errors'
+import ParameterError from '@/errors/parameter-error'
 
 const prisma = new PrismaClient()
 const router = Router()
@@ -10,7 +10,7 @@ router.get('/', async (req, res, next) => {
     if (req.query.from && req.query.to) {
       const from = new Date(req.query.from)
       const to = new Date(req.query.to)
-      if (to < from) throw new Error('Invalid date range.')
+      if (to < from) throw new ParameterError('Invalid date range.')
       const articles = await prisma.article.findMany({
         where: {
           published_at: {
@@ -22,13 +22,30 @@ router.get('/', async (req, res, next) => {
       console.log(articles)
       if (articles.length > 0) {
         articles.map((article) => delete article.publisher_id)
-        res.status(200).json(articles)
-        return
       }
-      throw new Error(
-        `No articles found between ${req.query.from} and ${req.query.to}.`
-      )
+      res.status(200).json(articles)
+      return
     }
+
+    // if (req.query.from) {
+    //   const from = new Date(req.query.from)
+    //   const to = new Date(req.query.to)
+    //   if (to < from) throw new Error('Invalid date range.')
+    //   const articles = await prisma.article.findMany({
+    //     where: {
+    //       published_at: {
+    //         gte: new Date(req.query.from),
+    //         lt: new Date(req.query.to),
+    //       },
+    //     },
+    //   })
+    //   console.log(articles)
+    //   if (articles.length > 0) {
+    //     articles.map((article) => delete article.publisher_id)
+    //   }
+    //   res.status(200).json(articles)
+    //   return
+    // }
 
     const articles = await prisma.article.findMany({
       include: {
@@ -43,12 +60,10 @@ router.get('/', async (req, res, next) => {
     })
     if (articles.length > 0) {
       articles.map((article) => delete article.publisher_id)
-      res.status(200).json(articles)
-      return
     }
-    throw new Error('No articles found.')
+    res.status(200).json(articles)
+    return
   } catch (error) {
-    error.type = ErrorType.NotFound
     next(error)
   }
 })
@@ -70,12 +85,10 @@ router.get('/:id', async (req, res, next) => {
     })
     if (article) {
       delete article.publisher_id
-      res.status(200).json(article)
-      return
     }
-    throw new Error('The requested article could not be found.')
+    res.status(200).json(article)
+    return
   } catch (error) {
-    error.type = ErrorType.NotFound
     next(error)
   }
 })
