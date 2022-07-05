@@ -5,13 +5,12 @@ import config from '@test/config'
 describe('Test articles path', () => {
   test('It should response the GET method', async () => {
     const response = await request(app).get(`${config.baseURL}/articles`)
-    baseTest(response)
+    testSuccess(response)
   })
 
   test('It should return multiple articles', async () => {
     const response = await request(app).get(`${config.baseURL}/articles`)
-    expect(response.statusCode).toBe(200)
-    expect(isValidJson(response.text)).toBe(true)
+    testSuccess(response)
     const articles = JSON.parse(response.text)
     expect(articles).toBeInstanceOf(Array)
     if (articles.length === 0) return
@@ -20,8 +19,7 @@ describe('Test articles path', () => {
 
   test('It should return a single article', async () => {
     const response = await request(app).get(`${config.baseURL}/articles/1`)
-    expect(response.statusCode).toBe(200)
-    expect(isValidJson(response.text)).toBe(true)
+    testSuccess(response)
     const article = JSON.parse(response.text)
     isValidArticle(article)
   })
@@ -32,8 +30,7 @@ describe('Test articles path', () => {
     const response = await request(app).get(
       `${config.baseURL}/articles?from=${from}&to=${to}`
     )
-    expect(response.statusCode).toBe(200)
-    expect(isValidJson(response.text)).toBe(true)
+    testSuccess(response)
     const articles = JSON.parse(response.text)
     expect(articles).toBeInstanceOf(Array)
     if (articles.length === 0) return
@@ -49,11 +46,17 @@ describe('Test articles path', () => {
     const response = await request(app).get(
       `${config.baseURL}/articles?from=${from}&to=${to}`
     )
-    expect(response.statusCode).toBe(200)
-    expect(isValidJson(response.text)).toBe(true)
+    testSuccess(response)
     const articles = JSON.parse(response.text)
     expect(articles).toBeInstanceOf(Array)
     expect(articles.length).toBe(0)
+  })
+
+  test('It should throw an error if the id parameter is not an integer', async () => {
+    const response = await request(app).get(`${config.baseURL}/articles/test`)
+    testFailure(response)
+    const error = JSON.parse(response.text)
+    isValidError(error)
   })
 
   test('It should throw an error if the date range is invalid', async () => {
@@ -62,16 +65,20 @@ describe('Test articles path', () => {
     const response = await request(app).get(
       `${config.baseURL}/articles?from=${from}&to=${to}`
     )
-    expect(response.statusCode).toBe(200)
-    expect(isValidJson(response.text)).toBe(true)
-    const result = JSON.parse(response.text)
-    expect(articles).toBeInstanceOf(Array)
-    expect(articles.length).toBe(0)
+    testFailure(response)
+    const error = JSON.parse(response.text)
+    isValidError(error)
   })
 })
 
-function baseTest(response) {
+function testSuccess(response) {
   expect(response.statusCode).toBe(200)
+  expect(isValidJson(response.text)).toBe(true)
+}
+
+function testFailure(response) {
+  expect(response.statusCode).toBeGreaterThanOrEqual(400)
+  expect(response.statusCode).toBeLessThan(600)
   expect(isValidJson(response.text)).toBe(true)
 }
 
@@ -122,4 +129,28 @@ function isValidArticle(article) {
   expect(article).toHaveProperty('categories')
   expect(article.categories).toBeDefined()
   expect(article.categories).not.toBe(null)
+}
+
+function isValidError(err) {
+  expect(err).toHaveProperty('error')
+  expect(err.error).toBeDefined()
+  expect(err.error).not.toBe(null)
+
+  const error = err.error
+
+  expect(error).toHaveProperty('name')
+  expect(error.name).toBeDefined()
+  expect(error.name).not.toBe(null)
+
+  expect(error).toHaveProperty('status')
+  expect(error.status).toBeDefined()
+  expect(error.status).not.toBe(null)
+
+  expect(error).toHaveProperty('message')
+  expect(error.message).toBeDefined()
+  expect(error.message).not.toBe(null)
+
+  expect(error).toHaveProperty('timestamp')
+  expect(error.timestamp).toBeDefined()
+  expect(error.timestamp).not.toBe(null)
 }
