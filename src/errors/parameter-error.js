@@ -2,7 +2,7 @@ import CustomError from './custom-error'
 
 class ParameterError extends CustomError {
   constructor(message) {
-    super(message, 404)
+    super(message, 400)
     this.name = 'Parameter Error'
   }
 }

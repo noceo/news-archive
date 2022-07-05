@@ -4,6 +4,15 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 const router = Router()
 
+router.param('id', (req, res, next, id, name) => {
+  req.params[name] = parseInt(id, 10)
+  if (isNaN(req.params[name])) {
+    next(new ParameterError('Parameter id must be of type Integer.'))
+  } else {
+    next()
+  }
+})
+
 router.get('/', async (req, res, next) => {
   try {
     const authors = await prisma.author.findMany()
