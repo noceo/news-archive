@@ -13,8 +13,4 @@ BigInt.prototype.toJSON = function () {
   return this.toString()
 }
 
-router.get('/', (req, res) => {
-  res.send('API')
-})
-
 export default router

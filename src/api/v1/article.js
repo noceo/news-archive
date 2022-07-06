@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { PrismaClient } from '@prisma/client'
 import ParameterError from '@/errors/parameter-error'
+import NotFoundError from '@/errors/notfound-error'
 
 const prisma = new PrismaClient()
 const router = Router()
@@ -69,9 +70,10 @@ router.get('/', async (req, res, next) => {
     })
     if (articles.length > 0) {
       articles.map((article) => delete article.publisher_id)
+      res.status(200).json(articles)
+      return
     }
-    res.status(200).json(articles)
-    return
+    throw new NotFoundError('No articles found.')
   } catch (error) {
     next(error)
   }
@@ -94,9 +96,10 @@ router.get('/:id', async (req, res, next) => {
     })
     if (article) {
       delete article.publisher_id
+      res.status(200).json(article)
+      return
     }
-    res.status(200).json(article)
-    return
+    throw new NotFoundError(`No article found with id ${req.params.id}`)
   } catch (error) {
     next(error)
   }

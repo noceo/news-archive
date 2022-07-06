@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import { PrismaClient } from '@prisma/client'
+import ParameterError from '@/errors/parameter-error'
+import NotFoundError from '@/errors/notfound-error'
 
 const prisma = new PrismaClient()
 const router = Router()
@@ -16,11 +18,11 @@ router.param('id', (req, res, next, id, name) => {
 router.get('/', async (req, res, next) => {
   try {
     const authors = await prisma.author.findMany()
-    if (authors) {
+    if (authors.length > 0) {
       res.status(200).json(authors)
       return
     }
-    throw new Error('No authors found.')
+    throw new NotFoundError('No authors found.')
   } catch (error) {
     next(error)
   }
@@ -36,7 +38,7 @@ router.get('/:id', async (req, res, next) => {
       res.status(200).json(author)
       return
     }
-    throw new Error('The requested author could not be found.')
+    throw new NotFoundError(`No author found with id ${req.params.id}`)
   } catch (error) {
     next(error)
   }

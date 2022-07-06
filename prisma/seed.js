@@ -1,5 +1,6 @@
 const { faker } = require('@faker-js/faker')
 const { PrismaClient } = require('@prisma/client')
+const { AuthorType } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 async function main() {
@@ -7,6 +8,7 @@ async function main() {
   for (let i = 0; i < 10; i++) {
     const author = {
       name: faker.name.firstName() + faker.name.lastName(),
+      type: AuthorType.PERSON,
     }
     await prisma.author.create({ data: author })
   }

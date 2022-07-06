@@ -1,5 +1,5 @@
 const errorLogger = (error, request, response, next) => {
-  console.error(`Error Logger: ${error.message}`)
+  console.log(`Error Logger: ${error.message}`)
   next(error)
 }
 
