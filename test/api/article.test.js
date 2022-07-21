@@ -41,16 +41,33 @@ describe('Test articles path', () => {
     })
   })
 
-  test('It should return no articles if there were no articles found', async () => {
+  test('It should return an object with articles grouped by publish date', async () => {
+    const from = '2012-01-01'
+    const to = '2022-01-01'
+    const response = await request(app).get(
+      `${config.baseURL}/articles?from=${from}&to=${to}&groupBy=published_at`
+    )
+    testSuccess(response)
+    const articles = JSON.parse(response.text)
+    expect(articles).toBeInstanceOf(Object)
+    Object.keys(articles).forEach((date) => {
+      console.log('Date', Object.keys(articles))
+      expect(Date.parse(date)).not.toBe(NaN)
+      articles[date].forEach((article) => {
+        isValidArticle(article)
+      })
+    })
+  })
+
+  test('It should throw an error if there were no articles found', async () => {
     const from = '2000-01-01'
     const to = '2010-01-01'
     const response = await request(app).get(
       `${config.baseURL}/articles?from=${from}&to=${to}`
     )
-    testSuccess(response)
-    const articles = JSON.parse(response.text)
-    expect(articles).toBeInstanceOf(Array)
-    expect(articles.length).toBe(0)
+    testFailure(response)
+    const error = JSON.parse(response.text)
+    isValidError(error)
   })
 
   test('It should throw an error if the id parameter is not an integer', async () => {

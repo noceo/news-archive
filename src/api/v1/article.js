@@ -17,47 +17,42 @@ router.param('id', (req, res, next, id, name) => {
 
 router.get('/', async (req, res, next) => {
   try {
-    if (req.query.from && req.query.to) {
+    if (req.query.from) {
       const from = new Date(req.query.from)
-      const to = new Date(req.query.to)
+      const to = req.query.to ? new Date(req.query.to) : new Date()
       if (to < from) throw new ParameterError('Invalid date range.')
-      const articles = await prisma.article.findMany({
+      let articles = await prisma.article.findMany({
         where: {
           published_at: {
-            gte: new Date(req.query.from),
-            lt: new Date(req.query.to),
+            gte: from,
+            lt: to,
+          },
+        },
+        orderBy: {
+          published_at: 'desc',
+        },
+        include: {
+          publisher: true,
+          authors: {
+            select: { author: true },
+          },
+          categories: {
+            select: { category: true },
           },
         },
       })
-      console.log(articles)
+
       if (articles.length > 0) {
         articles.map((article) => delete article.publisher_id)
+        if (req.query.groupBy === 'published_at')
+          articles = groupBy(articles, 'published_at')
+        res.status(200).json(articles)
+        return
       }
-      res.status(200).json(articles)
-      return
+      throw new NotFoundError(`No articles found between ${from} and ${to}.`)
     }
 
-    // if (req.query.from) {
-    //   const from = new Date(req.query.from)
-    //   const to = new Date(req.query.to)
-    //   if (to < from) throw new Error('Invalid date range.')
-    //   const articles = await prisma.article.findMany({
-    //     where: {
-    //       published_at: {
-    //         gte: new Date(req.query.from),
-    //         lt: new Date(req.query.to),
-    //       },
-    //     },
-    //   })
-    //   console.log(articles)
-    //   if (articles.length > 0) {
-    //     articles.map((article) => delete article.publisher_id)
-    //   }
-    //   res.status(200).json(articles)
-    //   return
-    // }
-
-    const articles = await prisma.article.findMany({
+    let articles = await prisma.article.findMany({
       include: {
         publisher: true,
         authors: {
@@ -68,8 +63,11 @@ router.get('/', async (req, res, next) => {
         },
       },
     })
+
     if (articles.length > 0) {
       articles.map((article) => delete article.publisher_id)
+      if (req.query.groupBy === 'published_at')
+        articles = groupBy(articles, 'published_at')
       res.status(200).json(articles)
       return
     }
@@ -104,5 +102,19 @@ router.get('/:id', async (req, res, next) => {
     next(error)
   }
 })
+
+function groupBy(articles, key) {
+  if (!(key in articles[0])) return articles
+  return articles.reduce((result, currentItem) => {
+    const timestamp = new Date(currentItem['published_at'])
+    const formatDate = `${timestamp.getFullYear()}-${
+      timestamp.getMonth() + 1
+    }-${timestamp.getDate()}`
+    ;(result[formatDate] = result[currentItem['published_at']] || []).push(
+      currentItem
+    )
+    return result
+  }, {})
+}
 
 export default router
